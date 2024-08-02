@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DrawingMgr : MonoBehaviour
+public class DrawingMgr : MonoSingleton<DrawingMgr>
 {
     public List<CharacterInfo> characters = new List<CharacterInfo>();
     public Image characterthum;
@@ -22,19 +22,19 @@ public class DrawingMgr : MonoBehaviour
 
         float random = Random.Range(0f, 1f);
 
-        CharacterType selectedType;
+        CharacterGrade selectedType;
         if (random < uniqueProbability)
         {
-            selectedType = CharacterType.unique;
+            selectedType = CharacterGrade.unique;
         }
         else if (random < uniqueProbability + rareProbability)
         {
-            selectedType = CharacterType.rare;
+            selectedType = CharacterGrade.rare;
         }
         else
         {
             Debug.Log("ss");
-            selectedType = CharacterType.normal;
+            selectedType = CharacterGrade.normal;
         }
 
         List<CharacterInfo> filteredCharacters = characters.FindAll(character => character.type == selectedType);
@@ -49,11 +49,11 @@ public class CharacterInfo
 
     public Sprite thum;
 
-    public CharacterType type;
+    public CharacterGrade type;
 
 }
 
-public enum CharacterType
+public enum CharacterGrade
 {
     normal,
     rare,

@@ -9,5 +9,17 @@ public class Tile : MonoBehaviour
     public string characterName;
 
     public const int characterMaxCount = 3;
-    public int characterCount;
+    public List<Character> characterList = new List<Character>();
+
+    public bool AddCharacter(Character character)
+    {
+        if (characterList.Count >= characterMaxCount)
+            return false;
+
+        characterList.Add(character);
+        character.transform.position = transform.position;
+        return true;
+        
+    }
+
 }

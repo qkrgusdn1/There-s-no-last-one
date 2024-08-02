@@ -1,23 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class TileMgr : MonoBehaviour
+using UnityEngine.TextCore.Text;
+
+public class TileMgr : MonoSingleton<TileMgr>
 {
-    private static TileMgr instance;
-    public static TileMgr Instance
-    { 
-        get 
-        { 
-            return instance; 
-        } 
-    }
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
     public Vector2Int size;
     public Tile tilePrefab;
     public float gap;
@@ -44,8 +31,37 @@ public class TileMgr : MonoBehaviour
             
         }
     }
+    public Tile GetEmptyTile()
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].characterList.Count > 0)
+            {
+                continue;
+            }
 
+            return tiles[i];
+        }
+        return null;
+    }
 
+    public Tile GetTile(string characterName)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].characterList.Count >= Tile.characterMaxCount)
+                continue;
+            if(tiles[i].characterList.Count > 0)
+            {
+                if(tiles[i].characterList[0].characterName != characterName)
+                {
+                    continue;
+                }
+            }
+            return tiles[i];
+        }
+        return null;
+    }
 
 
     void CreateTile()
